@@ -39,5 +39,37 @@
 * ssm 을 사용해서 run command 로 spot instance 에 명령어를 내림
   * 모든 팀원들이 사용하기에는 불편함이 있었다.
   * 따라서 별도로 제작한 loadtest server 사이트에서 대시보드로 관리
-* cloud watch 의 로그 기능으로 제어
-* 네이버의 오픈소스인 pinpoint 를 사용 -> aws 의 x-ray 사용
+* **cloud watch** 의 로그 기능으로 제어
+* **네이버의 오픈소스인 pinpoint** 를 사용 -> **aws 의 x-ray** 사용
+
+## 게임 데이터 활용
+
+* 데이터 계층 구조
+  * 스테이지 클리어: id 1000
+    * 재화 획득: id 10001, parent id:1000
+* 이런 식으로 행위에 대해 id 를 부여
+
+## 데이터 시각화
+
+* **elatic stack** 사용( elastic search 등 )
+* **파이프라인: webserver 의 filebeat - logstash - elasticsearch**
+* 엘라스틱 노드를 추가하는 상황
+  * 한 대의 머신(ec2 나 ecs 를 이야기하는 듯)에서 한계치 측정하는 것으로 테스트
+  * 한계치 측정으로 클러스터 추가 상황을 알게 되면 그 때 추가
+* 클러스터 장애에 대해서 AWS 로 **elastic search service** 로 처리
+* **변경된 파이프라인: amazon kinesis enabled app - kinesis streams - lambda function - elasticsearch**
+
+## 데이터 이중화
+
+* Amazon Kinesis-enabled app -> S3 <- **aws athena** 로 점검
+* 로그를 위한 s3 버킷 구조 (사진 참조)
+* aws athena 를 통해 cs 처리가 용이해졌음
+
+## 데이터 시각화
+
+* **kibana** 사용
+* 과하다 싶을 정도로 로그를 남겼음
+
+## 발표자 스타트업 상황
+
+* 서버 개발자가 3 명이어서 aws 의 도움으로 해결한 문제가 많았다
